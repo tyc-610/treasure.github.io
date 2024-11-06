@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寻宝过程</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+        .step {
+            margin: 20px 0;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>寻宝过程</h1>
+    <div id="steps">
+        <div class="step" id="step1">正在获取初始线索...</div>
+        <div class="step" id="step2">正在解码古代文字...</div>
+        <div class="step" id="step3">正在搜索神庙...</div>
+        <div class="step" id="step4">正在解答神庙谜题...</div>
+        <div class="step" id="step5">正在打开宝箱...</div>
+        <div class="step" id="step6">恭喜!你找到了传说中的宝藏!</div>
+    </div>
+
+    <script>
+        class TreasureMap {
+            static getInitialClue() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve("在古老的图书馆里找到了第一个线索...");
+                    }, 1000);
+                });
+            }
+
+            static decodeAncientScript(clue) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        if (!clue) {
+                            reject("没有线索可以解码!");
+                        }
+                        resolve("解码成功!宝藏在一座古老的神庙中...");
+                    }, 1500);
+                });
+            }
+
+            static searchTemple(location) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const random = Math.random();
+                        console.log(`searchTemple random: ${random}`);
+                        if (random < 0.5) {
+                            reject("糟糕!遇到了神庙守卫!");
+                        }
+                        resolve("找到了一个神秘的箱子...");
+                    }, 2000);
+                });
+            }
+
+            static solveTemplePuzzle() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const random = Math.random();
+                        console.log(`solveTemplePuzzle random: ${random}`);
+                        if (random < 0.5) {
+                            reject("谜题解答错误!");
+                        }
+                        resolve("谜题解答正确!箱子打开了...");
+                    }, 2000);
+                });
+            }
+
+            static openTreasureBox() {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve("恭喜!你找到了传说中的宝藏!");
+                    }, 1000);
+                });
+            }
+        }
+
+        async function findTreasureWithAnimation() {
+            const steps = document.querySelectorAll('.step');
+            try {
+                steps[0].classList.add('visible');
+                const clue = await TreasureMap.getInitialClue();
+                steps[0].textContent = clue;
+                console.log(clue);
+
+                steps[1].classList.add('visible');
+                const location = await TreasureMap.decodeAncientScript(clue);
+                steps[1].textContent = location;
+                console.log(location);
+
+                steps[2].classList.add('visible');
+                const box = await TreasureMap.searchTemple(location);
+                steps[2].textContent = box;
+                console.log(box);
+
+                steps[3].classList.add('visible');
+                const puzzle = await TreasureMap.solveTemplePuzzle();
+                steps[3].textContent = puzzle;
+                console.log(puzzle);
+
+                steps[4].classList.add('visible');
+                const treasure = await TreasureMap.openTreasureBox();
+                steps[4].textContent = treasure;
+                console.log(treasure);
+
+                steps[5].classList.add('visible');
+            } catch (error) {
+                console.error("任务失败:", error);
+            }
+        }
+
+        findTreasureWithAnimation();
+    </script>
+</body>
+</html>
